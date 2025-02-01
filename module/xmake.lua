@@ -1,0 +1,16 @@
+set_xmakever("2.8.2")
+set_project("argparse")
+
+target("argparse-module")
+    on_load(function (target) 
+        import("net.http")
+        http.download("https://raw.githubusercontent.com/p-ranav/argparse/refs/heads/master/include/argparse/argparse.hpp", "argparse.hpp")
+        target:add("headerfiles", "argparse.hpp")
+    end)
+    set_languages("c++23")
+    set_kind("static")
+    add_files("argparse.cppm", { public = true })
+    after_install(function (target) 
+        os.rm("argparse.hpp")
+    end)
+    
